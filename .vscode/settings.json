@@ -2,5 +2,11 @@
 	"editor.defaultFormatter": "esbenp.prettier-vscode",
 	"prettier.jsxSingleQuote": true,
 	"prettier.requireConfig": true,
-	"editor.formatOnSave": true
+	"prettier.enable": true,
+	"editor.formatOnSave": true,
+	"prettier.jsxBracketSameLine": true,
+	"prettier.singleQuote": true,
+	"prettier.useTabs": true,
+	"files.autoSave": "afterDelay",
+	"editor.formatOnPaste": true
 }
