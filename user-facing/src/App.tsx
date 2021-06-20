@@ -1,14 +1,16 @@
 import React, {useEffect, useState} from 'react';
+import '@fontsource/roboto/300.css';
+import '@fontsource/roboto/400.css';
+import '@fontsource/roboto/500.css';
+import '@fontsource/roboto/700.css';
 
-import logo from './logo.svg';
 import './App.css';
 
 
 const App = () => {
   return (
-    <div className="App">
+    <div className="app">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
         <p>
           Edit <code>src/App.tsx</code> and save to reload.
         </p>
