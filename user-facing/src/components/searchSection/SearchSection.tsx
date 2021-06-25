@@ -5,6 +5,8 @@ import {
 	makeStyles,
 	Container,
 	Input,
+	TextField,
+	Select,
 } from "@material-ui/core";
 import { ToggleButtonGroup, ToggleButton } from "@material-ui/lab";
 
@@ -34,8 +36,10 @@ const SearchSection = () => {
 	return (
 		<Container>
 			<Grid container spacing={3} className={classes.searchSection}>
-				<Grid item xs={6} sm={3}>
+				<Grid item>
 					<Typography>Search by:</Typography>
+				</Grid>
+				<Grid item>
 					<ToggleButtonGroup
 						color="primary"
 						value={searchMode}
@@ -50,6 +54,12 @@ const SearchSection = () => {
 							Aquinas to Bible
 						</ToggleButton>
 					</ToggleButtonGroup>
+				</Grid>
+				<Grid>
+					<Select value="Test">
+						<option value={1}>Test</option>
+						<option value={2}>Test2</option>
+					</Select>
 				</Grid>
 			</Grid>
 		</Container>
