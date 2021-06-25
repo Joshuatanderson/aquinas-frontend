@@ -22,12 +22,14 @@ exports.getData = async (req, res, next) => {
 				status: "success",
 				data: docs,
 			});
+			console.log("data sent");
 			client.close();
 		} catch (err) {
-			res.status(500).json({
+			await res.status(500).json({
 				status: "error",
 				data: { err },
 			});
+			client.close();
 		}
 	});
 };
