@@ -1,10 +1,12 @@
 import { Grid, Container, Typography } from "@material-ui/core";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
+import { useTable } from "react-table";
 
 import { DEV } from "../../config";
+import { ApiDataItem } from "../../types/ApiDataItem";
 
 const DataTable = () => {
-	const [data, setData] = useState<any>();
+	const [data, setData] = useState<ApiDataItem>();
 
 	useEffect(() => {
 		const fetchData = async () => {
@@ -15,6 +17,12 @@ const DataTable = () => {
 		};
 		fetchData();
 	}, []);
+
+	useEffect(() => {
+		const tableInit = () => {
+			useTable({columns, data})
+		}
+	}, [data])
 
 	return (
 		<Container>
