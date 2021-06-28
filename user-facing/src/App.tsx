@@ -9,7 +9,7 @@ import { theme } from "./theme/theme";
 import "./App.scss";
 import Header from "./components/Header";
 import SearchSection from "./components/searchSection/SearchSection";
-import DataTable from "./components/dataTable/View";
+import DataTableModel from "./components/dataTable/Model";
 
 const App = () => {
 	return (
@@ -17,7 +17,7 @@ const App = () => {
 			<CssBaseline />
 			<Header />
 			<SearchSection />
-			<DataTable/>
+			<DataTableModel />
 		</ThemeProvider>
 	);
 };

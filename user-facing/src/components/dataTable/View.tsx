@@ -4,25 +4,17 @@ import { useTable } from "react-table";
 
 import { DEV } from "../../config";
 import { ApiDataItem } from "../../types/ApiDataItem";
+import { Column } from "./types";
 
-const DataTable = () => {
-	const [data, setData] = useState<ApiDataItem>();
+interface DataTableViewProps {
+	data: ApiDataItem[];
+	columns: Column[];
+}
 
-	useEffect(() => {
-		const fetchData = async () => {
-			const resp = await fetch(DEV.DATA_ENDPOINT);
-			const json = await resp?.json();
-			console.debug(json);
-			setData(json);
-		};
-		fetchData();
-	}, []);
+const DataTableView = ({ data, columns }: DataTableViewProps) => {
+	console.log(data);
 
-	useEffect(() => {
-		const tableInit = () => {
-			useTable({columns, data})
-		}
-	}, [data])
+	const tableInstance = useTable({ columns, data });
 
 	return (
 		<Container>
@@ -35,4 +27,4 @@ const DataTable = () => {
 	);
 };
 
-export default DataTable;
+export default DataTableView;

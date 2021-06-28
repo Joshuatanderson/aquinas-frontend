@@ -1,16 +1,24 @@
-import React, { useMemo } from "react";
-import { useTable } from "react-table";
+import { Typography } from "@material-ui/core";
+import React, { useMemo, useEffect, useState, Fragment } from "react";
+import { DEV } from "../../config";
 import { ApiDataItem } from "../../types/ApiDataItem";
+import { Column } from "./types";
+import DataTableView from "./View";
 
-interface TableProps {
-	data: ApiDataItem[];
-}
+const DataTableModel = () => {
+	const [data, setData] = useState<ApiDataItem[]>();
 
-const Table = ({ data }: TableProps) => {
-	const memoizedData = useMemo(() => data, []);
+	useEffect(() => {
+		const fetchData = async () => {
+			const resp = await fetch(DEV.DATA_ENDPOINT);
+			const json = await resp?.json();
+			setData(json.data);
+		};
+		fetchData();
+	}, []);
 
 	// TS typing error fixed with this: https://github.com/tannerlinsley/react-table/discussions/2664
-	const columns = useMemo(
+	const columns: Column[] = useMemo(
 		() => [
 			{
 				Header: "Bible Chapter",
@@ -64,9 +72,12 @@ const Table = ({ data }: TableProps) => {
 		[]
 	);
 
-	const tableInstance = useTable({ columns, data: memoizedData });
-
-	return <div></div>;
+	return (
+		<Fragment>
+			{data && <DataTableView data={data} columns={columns} />}
+			{!data && <Typography variant="body1">Data loading...</Typography>}
+		</Fragment>
+	);
 };
 
-export default Table;
+export default DataTableModel;
