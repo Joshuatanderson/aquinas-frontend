@@ -24,6 +24,7 @@ import {
 	LOCATION_ONE_OPTIONS,
 	LOCATION_THREE_OPTIONS,
 	LOCATION_TWO_OPTIONS,
+	TEXT_OPTIONS,
 } from "../../data/SearchValues";
 import NumberInput from "../selectInput/NumberInput";
 import getChapterCeiling, {
@@ -57,6 +58,8 @@ const SearchSection = () => {
 
 	const [bibleBook, setBibleBook] = useState<string>("Genesis");
 	const [bibleChapter, setBibleChapter] = useState<string>("");
+
+	const [text, setText] = useState<string>("SS");
 
 	useEffect(() => {
 		if (searchMode === SEARCH_MODES.AQUINAS_TO_BIBLE) {
@@ -126,7 +129,17 @@ const SearchSection = () => {
 					</Grid>
 				)}
 				{searchMode === SEARCH_MODES.AQUINAS_TO_BIBLE && (
-					<Grid container spacing={3}></Grid>
+					<Grid container spacing={3}>
+						<Grid item>
+							<SelectInput
+								defaultValue={text}
+								value={text}
+								name="Text"
+								options={TEXT_OPTIONS}
+								handleChange={changeHandlerFactory(setText, text)}
+							/>
+						</Grid>
+					</Grid>
 				)}
 			</Grid>
 		</Container>
