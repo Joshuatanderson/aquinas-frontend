@@ -22,7 +22,7 @@ const DataTableModel = () => {
 		() => [
 			{
 				Header: "Bible Chapter",
-				accessor: "bible Chapter" as keyof ApiDataItem, // accessor is the "key" in the data
+				accessor: "Bible Chapter" as keyof ApiDataItem, // accessor is the "key" in the data
 			},
 			{
 				Header: "Bible Book",

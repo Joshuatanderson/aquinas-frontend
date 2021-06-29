@@ -13,6 +13,18 @@ import { ToggleButtonGroup, ToggleButton } from "@material-ui/lab";
 import { theme } from "../../theme/theme";
 import { SearchOption } from "../../types/searchOption";
 import { SEARCH_MODES } from "../../constants";
+import SelectInput from "../selectInput/SelectInput";
+import {
+	BIBLE_BOOK_OPTIONS,
+	BIBLE_CHAPTER_OPTIONS,
+	BIBLE_VERSE_OPTIONS,
+	VULGATE_CHAPTER_OPTIONS,
+	VULGATE_VERSE_OPTIONS,
+	LOCATION_FOUR_OPTIONS,
+	LOCATION_ONE_OPTIONS,
+	LOCATION_THREE_OPTIONS,
+	LOCATION_TWO_OPTIONS,
+} from "./SearchValues";
 
 const useStyles = makeStyles({
 	searchSection: {
@@ -37,9 +49,6 @@ const SearchSection = () => {
 		<Container>
 			<Grid container spacing={3} className={classes.searchSection}>
 				<Grid item>
-					<Typography>Search by:</Typography>
-				</Grid>
-				<Grid item>
 					<ToggleButtonGroup
 						color="primary"
 						value={searchMode}
@@ -56,10 +65,7 @@ const SearchSection = () => {
 					</ToggleButtonGroup>
 				</Grid>
 				<Grid>
-					<Select value="Test">
-						<option value={1}>Test</option>
-						<option value={2}>Test2</option>
-					</Select>
+					<SelectInput options={BIBLE_BOOK_OPTIONS} name={"Book"} />
 				</Grid>
 			</Grid>
 		</Container>

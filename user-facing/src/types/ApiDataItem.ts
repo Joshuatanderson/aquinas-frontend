@@ -1,5 +1,5 @@
 export interface ApiDataItem {
-	"bible Chapter": string;
+	"Bible Chapter": string;
 	"Bible book": string;
 	"Bible verse": string;
 	"Location 1": string;
