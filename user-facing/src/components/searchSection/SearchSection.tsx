@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { ChangeEvent, useState } from "react";
 import {
 	Typography,
 	Grid,
@@ -32,11 +32,25 @@ const useStyles = makeStyles({
 	},
 });
 
+function changeHandlerFactory(
+	setStateFunc: React.Dispatch<React.SetStateAction<string>>,
+	currentVal: string
+) {
+	return function (event: ChangeEvent<{ name?: string; value: unknown }>) {
+		if (event.target.value === currentVal) {
+			return;
+		}
+		setStateFunc(event.target.value as string);
+	};
+}
+
 const SearchSection = () => {
 	const classes = useStyles();
 	const [searchMode, setSearchMode] = useState<SearchOption>(
 		SEARCH_MODES.BIBLE_TO_AQUINAS as SearchOption
 	);
+
+	const [bibleBook, setBibleBook] = useState<string>("Genesis");
 
 	const handleSearchModeChange = (
 		event: React.MouseEvent<HTMLElement>,
@@ -65,7 +79,13 @@ const SearchSection = () => {
 					</ToggleButtonGroup>
 				</Grid>
 				<Grid>
-					<SelectInput options={BIBLE_BOOK_OPTIONS} name={"Book"} />
+					<SelectInput
+						defaultValue={bibleBook}
+						value={bibleBook}
+						options={BIBLE_BOOK_OPTIONS}
+						name={"Book"}
+						handleChange={changeHandlerFactory(setBibleBook, bibleBook)}
+					/>
 				</Grid>
 			</Grid>
 		</Container>
