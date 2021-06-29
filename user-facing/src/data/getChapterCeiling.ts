@@ -1,6 +1,5 @@
-import { BIBLE_BOOK_OPTIONS } from "./SearchValues";
 
-const chapterCountMap = {
+export const chapterCountMap = {
 	Genesis: 50,
 	Exodus: 40,
 	Leviticus: 27,

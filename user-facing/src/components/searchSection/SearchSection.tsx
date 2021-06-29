@@ -25,6 +25,11 @@ import {
 	LOCATION_THREE_OPTIONS,
 	LOCATION_TWO_OPTIONS,
 } from "../../data/SearchValues";
+import NumberInput from "../selectInput/NumberInput";
+import getChapterCeiling, {
+	chapterCountMap,
+} from "../../data/getChapterCeiling";
+import { useEffect } from "react";
 
 const useStyles = makeStyles({
 	searchSection: {
@@ -51,7 +56,14 @@ const SearchSection = () => {
 	);
 
 	const [bibleBook, setBibleBook] = useState<string>("Genesis");
-	const [bibleChapter, setBibleChapter] = useState<string>();
+	const [bibleChapter, setBibleChapter] = useState<string>("");
+
+	useEffect(() => {
+		if (searchMode === SEARCH_MODES.AQUINAS_TO_BIBLE) {
+			setBibleBook("");
+			setBibleChapter("");
+		}
+	}, [searchMode]);
 
 	const handleSearchModeChange = (
 		event: React.MouseEvent<HTMLElement>,
@@ -87,15 +99,35 @@ const SearchSection = () => {
 						</ToggleButton>
 					</ToggleButtonGroup>
 				</Grid>
-				<Grid>
-					<SelectInput
-						defaultValue={bibleBook}
-						value={bibleBook}
-						options={BIBLE_BOOK_OPTIONS}
-						name={"Book"}
-						handleChange={changeHandlerFactory(setBibleBook, bibleBook)}
-					/>
-				</Grid>
+				{searchMode === SEARCH_MODES.BIBLE_TO_AQUINAS && (
+					<Grid container spacing={3}>
+						<Grid item>
+							<SelectInput
+								defaultValue={bibleBook}
+								value={bibleBook}
+								options={BIBLE_BOOK_OPTIONS}
+								name={"Book"}
+								handleChange={changeHandlerFactory(setBibleBook, bibleBook)}
+							/>
+						</Grid>
+						{bibleBook && (
+							<Grid item>
+								<NumberInput
+									defaultValue=""
+									value={bibleChapter}
+									name={"Chapter"}
+									valueSetter={setBibleChapter}
+									ceiling={getChapterCeiling(
+										bibleBook as keyof typeof chapterCountMap
+									)}
+								></NumberInput>
+							</Grid>
+						)}
+					</Grid>
+				)}
+				{searchMode === SEARCH_MODES.AQUINAS_TO_BIBLE && (
+					<Grid container spacing={3}></Grid>
+				)}
 			</Grid>
 		</Container>
 	);

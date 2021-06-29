@@ -1,15 +1,18 @@
-import React, { ChangeEvent } from "react";
+import React, { ChangeEvent, Dispatch, SetStateAction } from "react";
 import { TextField, StandardTextFieldProps } from "@material-ui/core";
 
 interface NumberInputProps extends StandardTextFieldProps {
 	ceiling: number;
 	name: string;
-	valueSetter: (next: string) => void;
+	valueSetter: Dispatch<SetStateAction<string>>;
 	value: string;
 }
 
 const NumberInput = (props: NumberInputProps) => {
 	const guardedHandleChange = (nextValue: string) => {
+		if (nextValue === "") {
+			props.valueSetter(nextValue);
+		}
 		const next = parseInt(nextValue);
 		if (next > props.ceiling || next < 0) {
 			return;
