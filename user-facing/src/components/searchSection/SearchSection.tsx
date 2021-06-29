@@ -1,4 +1,10 @@
-import React, { ChangeEvent, useState } from "react";
+import React, {
+	ChangeEvent,
+	useState,
+	Dispatch,
+	useEffect,
+	SetStateAction,
+} from "react";
 import {
 	Typography,
 	Grid,
@@ -12,7 +18,7 @@ import { ToggleButtonGroup, ToggleButton } from "@material-ui/lab";
 
 import { theme } from "../../theme/theme";
 import { SearchOption } from "../../types/searchOption";
-import { SEARCH_MODES } from "../../constants";
+import { BIBLE_TO_AQUINAS, AQUINAS_TO_BIBLE } from "../../constants";
 import SelectInput from "../selectInput/SelectInput";
 import {
 	BIBLE_BOOK_OPTIONS,
@@ -30,7 +36,6 @@ import NumberInput from "../selectInput/NumberInput";
 import getChapterCeiling, {
 	chapterCountMap,
 } from "../../data/getChapterCeiling";
-import { useEffect } from "react";
 
 const useStyles = makeStyles({
 	searchSection: {
@@ -50,11 +55,15 @@ function changeHandlerFactory(
 	};
 }
 
-const SearchSection = () => {
+interface SearchSectionProps {
+	searchMode: SearchOption;
+	setSearchMode: Dispatch<
+		SetStateAction<"Bible to Aquinas" | "Aquinas to Bible">
+	>;
+}
+
+const SearchSection = ({ searchMode, setSearchMode }: SearchSectionProps) => {
 	const classes = useStyles();
-	const [searchMode, setSearchMode] = useState<SearchOption>(
-		SEARCH_MODES.BIBLE_TO_AQUINAS as SearchOption
-	);
 
 	const [bibleBook, setBibleBook] = useState<string>("Genesis");
 	const [bibleChapter, setBibleChapter] = useState<string>("");
@@ -63,13 +72,13 @@ const SearchSection = () => {
 	const [locationOne, setLocationOne] = useState<string>("");
 
 	useEffect(() => {
-		if (searchMode === SEARCH_MODES.BIBLE_TO_AQUINAS) {
+		if (searchMode === BIBLE_TO_AQUINAS) {
 			setText("");
 			setLocationOne("");
 
 			setBibleBook("Genesis");
 		}
-		if (searchMode === SEARCH_MODES.AQUINAS_TO_BIBLE) {
+		if (searchMode === AQUINAS_TO_BIBLE) {
 			setBibleBook("");
 			setBibleChapter("");
 
@@ -104,15 +113,15 @@ const SearchSection = () => {
 						onChange={handleSearchModeChange}
 						aria-label="change search mode"
 					>
-						<ToggleButton value={SEARCH_MODES.BIBLE_TO_AQUINAS}>
+						<ToggleButton value={BIBLE_TO_AQUINAS}>
 							Bible to Aquinas
 						</ToggleButton>
-						<ToggleButton value={SEARCH_MODES.AQUINAS_TO_BIBLE}>
+						<ToggleButton value={AQUINAS_TO_BIBLE}>
 							Aquinas to Bible
 						</ToggleButton>
 					</ToggleButtonGroup>
 				</Grid>
-				{searchMode === SEARCH_MODES.BIBLE_TO_AQUINAS && (
+				{searchMode === BIBLE_TO_AQUINAS && (
 					<Grid container spacing={3}>
 						<Grid item>
 							<SelectInput
@@ -138,7 +147,7 @@ const SearchSection = () => {
 						)}
 					</Grid>
 				)}
-				{searchMode === SEARCH_MODES.AQUINAS_TO_BIBLE && (
+				{searchMode === AQUINAS_TO_BIBLE && (
 					<Grid container spacing={3}>
 						<Grid item>
 							<SelectInput
