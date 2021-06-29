@@ -24,7 +24,7 @@ import {
 	LOCATION_ONE_OPTIONS,
 	LOCATION_THREE_OPTIONS,
 	LOCATION_TWO_OPTIONS,
-} from "./SearchValues";
+} from "../../data/SearchValues";
 
 const useStyles = makeStyles({
 	searchSection: {
@@ -51,6 +51,7 @@ const SearchSection = () => {
 	);
 
 	const [bibleBook, setBibleBook] = useState<string>("Genesis");
+	const [bibleChapter, setBibleChapter] = useState<string>();
 
 	const handleSearchModeChange = (
 		event: React.MouseEvent<HTMLElement>,
@@ -58,6 +59,14 @@ const SearchSection = () => {
 	) => {
 		setSearchMode(mode);
 	};
+
+	// if bible book
+
+	// TODO:
+	// Create flow for select process
+	// handle clear for mode select
+	// handle lazy load table
+	// prettify table
 
 	return (
 		<Container>
