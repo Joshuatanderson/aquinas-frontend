@@ -60,11 +60,20 @@ const SearchSection = () => {
 	const [bibleChapter, setBibleChapter] = useState<string>("");
 
 	const [text, setText] = useState<string>("SS");
+	const [locationOne, setLocationOne] = useState<string>("");
 
 	useEffect(() => {
+		if (searchMode === SEARCH_MODES.BIBLE_TO_AQUINAS) {
+			setText("");
+			setLocationOne("");
+
+			setBibleBook("Genesis");
+		}
 		if (searchMode === SEARCH_MODES.AQUINAS_TO_BIBLE) {
 			setBibleBook("");
 			setBibleChapter("");
+
+			setText("SS");
 		}
 	}, [searchMode]);
 
@@ -78,8 +87,9 @@ const SearchSection = () => {
 	// if bible book
 
 	// TODO:
-	// Create flow for select process
-	// handle clear for mode select
+	// [x] Create flow for select process
+	// [x] handle clear for mode select
+	// handle filter table
 	// handle lazy load table
 	// prettify table
 
@@ -139,6 +149,20 @@ const SearchSection = () => {
 								handleChange={changeHandlerFactory(setText, text)}
 							/>
 						</Grid>
+						{text && (
+							<Grid item>
+								<SelectInput
+									defaultValue={""}
+									value={locationOne}
+									name="Location 1"
+									options={LOCATION_ONE_OPTIONS}
+									handleChange={changeHandlerFactory(
+										setLocationOne,
+										locationOne
+									)}
+								/>
+							</Grid>
+						)}
 					</Grid>
 				)}
 			</Grid>

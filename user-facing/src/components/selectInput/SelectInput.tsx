@@ -20,6 +20,7 @@ const SelectInput = (props: SelectInputProps) => {
 			{option}
 		</option>
 	));
+	createOptions.push(<option value="" key={`option-empty`} />);
 
 	return (
 		<Fragment>
