@@ -16,10 +16,10 @@ import {
 } from "@material-ui/core";
 import { ToggleButtonGroup, ToggleButton } from "@material-ui/lab";
 
-import { theme } from "../../theme/theme";
-import { SearchOption } from "../../types/searchOption";
-import { BIBLE_TO_AQUINAS, AQUINAS_TO_BIBLE } from "../../constants";
-import SelectInput from "../selectInput/SelectInput";
+import { theme } from "../../../theme/theme";
+import { SearchOption } from "../../../types/searchOption";
+import { BIBLE_TO_AQUINAS, AQUINAS_TO_BIBLE } from "../../../constants";
+import SelectInput from "../../selectInput/SelectInput";
 import {
 	BIBLE_BOOK_OPTIONS,
 	BIBLE_CHAPTER_OPTIONS,
@@ -31,11 +31,12 @@ import {
 	LOCATION_THREE_OPTIONS,
 	LOCATION_TWO_OPTIONS,
 	TEXT_OPTIONS,
-} from "../../data/SearchValues";
-import NumberInput from "../selectInput/NumberInput";
+} from "../../../data/SearchValues";
+import NumberInput from "../../selectInput/NumberInput";
 import getChapterCeiling, {
 	chapterCountMap,
-} from "../../data/getChapterCeiling";
+} from "../../../data/getChapterCeiling";
+import GlobalFilter from "../../globalFilter/GlobalFilter";
 
 const useStyles = makeStyles({
 	searchSection: {
@@ -60,9 +61,14 @@ interface SearchSectionProps {
 	setSearchMode: Dispatch<
 		SetStateAction<"Bible to Aquinas" | "Aquinas to Bible">
 	>;
+	setFilter: (columnId: string, updater: any) => void;
 }
 
-const SearchSection = ({ searchMode, setSearchMode }: SearchSectionProps) => {
+const SearchSection = ({
+	searchMode,
+	setSearchMode,
+	setFilter,
+}: SearchSectionProps) => {
 	const classes = useStyles();
 
 	const [bibleBook, setBibleBook] = useState<string>("Genesis");
@@ -76,15 +82,23 @@ const SearchSection = ({ searchMode, setSearchMode }: SearchSectionProps) => {
 			setText("");
 			setLocationOne("");
 
-			setBibleBook("Genesis");
+			setBibleBook("");
 		}
 		if (searchMode === AQUINAS_TO_BIBLE) {
 			setBibleBook("");
 			setBibleChapter("");
 
-			setText("SS");
+			setText("");
 		}
 	}, [searchMode]);
+
+	useEffect(() => {
+		setFilter("Bible Chapter", bibleChapter);
+	}, [bibleChapter, setFilter]);
+
+	useEffect(() => {
+		setFilter("Bible book", bibleBook);
+	}, [bibleBook, setFilter]);
 
 	const handleSearchModeChange = (
 		event: React.MouseEvent<HTMLElement>,

@@ -1,10 +1,12 @@
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { Grid, Container, Typography } from "@material-ui/core";
-import { useTable } from "react-table";
+import { useTable, useFilters, useGlobalFilter } from "react-table";
 
-import { DEV } from "../../config";
 import { ApiDataItem } from "../../types/ApiDataItem";
 import { Column } from "./types";
+// import GlobalFilter from "../globalFilter/GlobalFilter";
+import { AQUINAS_TO_BIBLE, BIBLE_TO_AQUINAS } from "../../constants";
+import SearchSection from "./searchSection/SearchSection";
 
 interface DataTableViewProps {
 	data: ApiDataItem[];
@@ -13,12 +15,33 @@ interface DataTableViewProps {
 
 const DataTableView = ({ data, columns }: DataTableViewProps) => {
 	const memoizedData = useMemo(() => data, []);
-	const tableInstance = useTable({ columns, data: memoizedData });
-	const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
-		tableInstance;
+	const [searchMode, setSearchMode] = useState<
+		typeof BIBLE_TO_AQUINAS | typeof AQUINAS_TO_BIBLE
+	>(BIBLE_TO_AQUINAS);
+
+	const {
+		getTableProps,
+		getTableBodyProps,
+		headerGroups,
+		rows,
+		prepareRow,
+		setFilter,
+	} = useTable({ columns, data: memoizedData }, useFilters);
 
 	return (
 		<Container>
+			<Grid container spacing={3}>
+				<SearchSection
+					searchMode={searchMode}
+					setSearchMode={setSearchMode}
+					setFilter={setFilter}
+				/>
+
+				{/* <GlobalFilter
+					globalFilter={globalFilter}
+					setGlobalFilter={setGlobalFilter}
+				/> */}
+			</Grid>
 			<Grid container spacing={3}>
 				<Grid item xs={12}>
 					<table {...getTableProps()}>
