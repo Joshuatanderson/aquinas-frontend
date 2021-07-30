@@ -71,10 +71,10 @@ const SearchSection = ({
 }: SearchSectionProps) => {
 	const classes = useStyles();
 
-	const [bibleBook, setBibleBook] = useState<string>("Genesis");
+	const [bibleBook, setBibleBook] = useState<string>("");
 	const [bibleChapter, setBibleChapter] = useState<string>("");
 
-	const [text, setText] = useState<string>("SS");
+	const [text, setText] = useState<string>("");
 	const [locationOne, setLocationOne] = useState<string>("");
 
 	useEffect(() => {
