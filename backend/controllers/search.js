@@ -12,14 +12,15 @@ const MOCKED_PARAMS = ["Genesis", "book 4"]
  */
 
 const queryifySearchTerms = (params) => {
-	const modifiedParams = params.map(param => `\"${param}\"`).join(" ");
+	const modifiedParams = params.split(" ")
+		.map(param => `\"${param}\"`)
+		.join(" ");
 	console.log(modifiedParams)
 
 	return `${modifiedParams}`;
 }
 
 exports.searchData = async (req, res, next) => {
-	console.info("search is live");
 
 	const uri = `mongodb+srv://${process.env.ATLAS_USER}:${process.env.ATLAS_PASSWORD}@cluster0.wcadp.mongodb.net/aquinas?retryWrites=true&w=majority`;
 	const client = new MongoClient(uri, {
@@ -29,25 +30,34 @@ exports.searchData = async (req, res, next) => {
 
 	client.connect(async (err) => {
 		try {
+			if(!req.params?.searches?.length){
+				await res.status(500).json({
+					status: "error",
+					data: { 
+						message: "Params are not an array",
+						params: params
+					},
+				});
+			}
 
+			console.log(req.params)
 			const db = await client.db("aquinas");
 			
 			const docs = await db.collection("data")
-				.find({$text: {$search: queryifySearchTerms(MOCKED_PARAMS)}})
+				.find({$text: {$search: queryifySearchTerms(req.params.searches)}})
 				.toArray();
 
 			await res.status(203).json({
 				status: "success",
-				data: {
-					docs,
-					params: queryifySearchTerms(MOCKED_PARAMS)
-				}
+				data: docs
 			})
 			client.close();
 		} catch (err) {
 			await res.status(500).json({
 				status: "error",
-				data: { err },
+				data: { message: err.message },
+				query: req.query,
+				params: req.params
 			});
 			client.close();
 		}
