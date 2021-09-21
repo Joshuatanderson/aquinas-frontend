@@ -6,6 +6,7 @@ import { ApiDataItem } from "../../types/ApiDataItem";
 import { theme } from "../../theme/theme";
 import { Column } from "./types";
 import DataTableView from "./View";
+import { ROUTES } from "../../routes";
 
 const useStyles = makeStyles({
 	cont: {
@@ -23,24 +24,29 @@ const DataTableModel = ({ globalSearch }: DataTableModelProps) => {
 	const [data, setData] = useState<ApiDataItem[]>();
 
 	useEffect(() => {
-		// const fetchData = async () => {
-		// 	const resp = await fetch(DEV.DATA_ENDPOINT);
-		// 	const json = await resp?.json();
-		// 	setData(json.data);
-		// };
-		// fetchData();
-	}, []);
+		if (!globalSearch) {
+			return;
+		}
+
+		const fetchData = async () => {
+			const resp = await fetch(ROUTES.SEARCH(DEV.DATA_ENDPOINT, globalSearch));
+			const json = await resp?.json();
+			setData(json.data);
+		};
+
+		fetchData();
+	}, [globalSearch]);
 
 	// TS typing error fixed with this: https://github.com/tannerlinsley/react-table/discussions/2664
 	const columns: Column[] = useMemo(
 		() => [
 			{
-				Header: "Bible Chapter",
-				accessor: "Bible Chapter" as keyof ApiDataItem, // accessor is the "key" in the data
-			},
-			{
 				Header: "Bible Book",
 				accessor: "Bible book" as keyof ApiDataItem,
+			},
+			{
+				Header: "Bible Chapter",
+				accessor: "Bible Chapter" as keyof ApiDataItem, // accessor is the "key" in the data
 			},
 			{
 				Header: "Bible Verse",
@@ -66,12 +72,12 @@ const DataTableModel = ({ globalSearch }: DataTableModelProps) => {
 				Header: "Text",
 				accessor: "Text" as keyof ApiDataItem,
 			},
+			// {
+			// 	Header: "Id",
+			// 	accessor: "_id" as keyof ApiDataItem,
+			// },
 			{
-				Header: "Id",
-				accessor: "_id" as keyof ApiDataItem,
-			},
-			{
-				Header: "Yes",
+				Header: "Corrected",
 				accessor: "Yes" as keyof ApiDataItem,
 			},
 			{

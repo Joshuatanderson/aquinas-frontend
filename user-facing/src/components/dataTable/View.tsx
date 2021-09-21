@@ -14,7 +14,7 @@ interface DataTableViewProps {
 }
 
 const DataTableView = ({ data, columns }: DataTableViewProps) => {
-	const memoizedData = useMemo(() => data, []);
+	const memoizedData = useMemo(() => data, [data]);
 	const [searchMode, setSearchMode] = useState<
 		typeof BIBLE_TO_AQUINAS | typeof AQUINAS_TO_BIBLE
 	>(BIBLE_TO_AQUINAS);
@@ -31,11 +31,11 @@ const DataTableView = ({ data, columns }: DataTableViewProps) => {
 	return (
 		<Container>
 			<Grid container spacing={3}>
-				<SearchSection
+				{/* <SearchSection
 					searchMode={searchMode}
 					setSearchMode={setSearchMode}
 					setFilter={setFilter}
-				/>
+				/> */}
 
 				{/* <GlobalFilter
 					globalFilter={globalFilter}
