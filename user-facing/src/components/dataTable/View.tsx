@@ -1,5 +1,16 @@
 import { useMemo, useState } from "react";
-import { Grid, Container, Typography } from "@material-ui/core";
+import {
+	Grid,
+	Container,
+	Typography,
+	Table,
+	TableHead,
+	TableRow,
+	TableCell,
+	TableBody,
+	Icon,
+} from "@material-ui/core";
+import { KeyboardArrowUp, KeyboardArrowDown } from "@mui/icons-material";
 import { useTable, useFilters, useGlobalFilter, useSortBy } from "react-table";
 
 import { ApiDataItem } from "../../types/ApiDataItem";
@@ -44,18 +55,18 @@ const DataTableView = ({ data, columns }: DataTableViewProps) => {
 			</Grid>
 			<Grid container spacing={3}>
 				<Grid item xs={12}>
-					<table {...getTableProps()}>
-						<thead>
+					<Table {...getTableProps()}>
+						<TableHead>
 							{
 								// Loop over the header rows
 								headerGroups.map((headerGroup) => (
 									// Apply the header row props
-									<tr {...headerGroup.getHeaderGroupProps()}>
+									<TableRow {...headerGroup.getHeaderGroupProps()}>
 										{
 											// Loop over the headers in each row
 											headerGroup.headers.map((column) => (
 												// Apply the header cell props
-												<th
+												<TableCell
 													{...column.getHeaderProps(
 														column.getSortByToggleProps()
 													)}
@@ -63,21 +74,25 @@ const DataTableView = ({ data, columns }: DataTableViewProps) => {
 													{column.render("Header")}
 													{/* Add a sort direction indicator */}
 													<span>
-														{column.isSorted
-															? column.isSortedDesc
-																? " 🔽"
-																: " 🔼"
-															: ""}
+														{column.isSorted ? (
+															column.isSortedDesc ? (
+																<KeyboardArrowDown />
+															) : (
+																<KeyboardArrowUp />
+															)
+														) : (
+															""
+														)}
 													</span>
-												</th>
+												</TableCell>
 											))
 										}
-									</tr>
+									</TableRow>
 								))
 							}
-						</thead>
+						</TableHead>
 						{/* Apply the table body props */}
-						<tbody {...getTableBodyProps()}>
+						<TableBody {...getTableBodyProps()}>
 							{
 								// Loop over the table rows
 								rows.map((row) => {
@@ -85,27 +100,27 @@ const DataTableView = ({ data, columns }: DataTableViewProps) => {
 									prepareRow(row);
 									return (
 										// Apply the row props
-										<tr {...row.getRowProps()}>
+										<TableRow {...row.getRowProps()}>
 											{
 												// Loop over the rows cells
 												row.cells.map((cell) => {
 													// Apply the cell props
 													return (
-														<td {...cell.getCellProps()}>
+														<TableCell {...cell.getCellProps()}>
 															{
 																// Render the cell contents
 																cell.render("Cell")
 															}
-														</td>
+														</TableCell>
 													);
 												})
 											}
-										</tr>
+										</TableRow>
 									);
 								})
 							}
-						</tbody>
-					</table>
+						</TableBody>
+					</Table>
 				</Grid>
 			</Grid>
 		</Container>
