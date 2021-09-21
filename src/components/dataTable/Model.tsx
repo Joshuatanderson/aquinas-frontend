@@ -22,6 +22,7 @@ interface DataTableModelProps {
 const DataTableModel = ({ globalSearch }: DataTableModelProps) => {
 	const classes = useStyles();
 	const [data, setData] = useState<ApiDataItem[]>();
+	const [requestSuccess, setRequestSuccess] = useState<boolean>();
 
 	useEffect(() => {
 		if (!globalSearch) {
@@ -29,9 +30,17 @@ const DataTableModel = ({ globalSearch }: DataTableModelProps) => {
 		}
 
 		const fetchData = async () => {
-			const resp = await fetch(ROUTES.SEARCH(DEV.DATA_ENDPOINT, globalSearch));
-			const json = await resp?.json();
-			setData(json.data);
+			setRequestSuccess(undefined);
+			try {
+				const resp = await fetch(
+					ROUTES.SEARCH(DEV.DATA_ENDPOINT, globalSearch)
+				);
+				const json = await resp?.json();
+				setData(json.data);
+				setRequestSuccess(true);
+			} catch (err) {
+				setRequestSuccess(false);
+			}
 		};
 
 		fetchData();
@@ -100,10 +109,13 @@ const DataTableModel = ({ globalSearch }: DataTableModelProps) => {
 						Try searching to load content.
 					</Typography>
 				)}
-				{globalSearch && !data?.length && (
+				{globalSearch && requestSuccess === undefined && (
 					<Typography variant="body1">Data loading...</Typography>
 				)}
-				{data?.length && <DataTableView data={data} columns={columns} />}
+				{!!data?.length && <DataTableView data={data} columns={columns} />}
+				{globalSearch && !data?.length && requestSuccess === true && (
+					<Typography>No results</Typography>
+				)}
 			</div>
 		</Fragment>
 	);
