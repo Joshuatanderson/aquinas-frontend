@@ -1,20 +1,34 @@
 import { Typography } from "@material-ui/core";
 import React, { useMemo, useEffect, useState, Fragment } from "react";
 import { DEV } from "../../config";
+import { makeStyles } from "@material-ui/core/styles";
 import { ApiDataItem } from "../../types/ApiDataItem";
+import { theme } from "../../theme/theme";
 import { Column } from "./types";
 import DataTableView from "./View";
 
-const DataTableModel = () => {
+const useStyles = makeStyles({
+	cont: {
+		marginTop: theme.spacing(9),
+		marginLeft: theme.spacing(3),
+	},
+});
+
+interface DataTableModelProps {
+	globalSearch: string;
+}
+
+const DataTableModel = ({ globalSearch }: DataTableModelProps) => {
+	const classes = useStyles();
 	const [data, setData] = useState<ApiDataItem[]>();
 
 	useEffect(() => {
-		const fetchData = async () => {
-			const resp = await fetch(DEV.DATA_ENDPOINT);
-			const json = await resp?.json();
-			setData(json.data);
-		};
-		fetchData();
+		// const fetchData = async () => {
+		// 	const resp = await fetch(DEV.DATA_ENDPOINT);
+		// 	const json = await resp?.json();
+		// 	setData(json.data);
+		// };
+		// fetchData();
 	}, []);
 
 	// TS typing error fixed with this: https://github.com/tannerlinsley/react-table/discussions/2664
@@ -74,8 +88,12 @@ const DataTableModel = () => {
 
 	return (
 		<Fragment>
-			{data && <DataTableView data={data} columns={columns} />}
-			{!data && <Typography variant="body1">Data loading...</Typography>}
+			<div className={classes.cont}>
+				{data?.length && <DataTableView data={data} columns={columns} />}
+				{!data?.length && (
+					<Typography variant="body1">Data loading...</Typography>
+				)}
+			</div>
 		</Fragment>
 	);
 };

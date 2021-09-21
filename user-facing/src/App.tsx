@@ -12,13 +12,17 @@ import Header from "./components/Header";
 import DataTableModel from "./components/dataTable/Model";
 import { BIBLE_TO_AQUINAS, AQUINAS_TO_BIBLE } from "./constants";
 import { SearchOption } from "./types/searchOption";
+import SearchInputs from "./components/SearchInputs";
 
 const App = () => {
+	const [globalSearch, setGlobalSearch] = useState<string>("");
+
 	return (
 		<ThemeProvider theme={theme}>
 			<CssBaseline />
 			<Header />
-			<DataTableModel />
+			<SearchInputs setGlobalSearch={setGlobalSearch} />
+			<DataTableModel globalSearch={globalSearch} />
 		</ThemeProvider>
 	);
 };
