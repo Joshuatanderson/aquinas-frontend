@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import { Grid, Container, Typography } from "@material-ui/core";
-import { useTable, useFilters, useGlobalFilter } from "react-table";
+import { useTable, useFilters, useGlobalFilter, useSortBy } from "react-table";
 
 import { ApiDataItem } from "../../types/ApiDataItem";
 import { Column } from "./types";
@@ -26,7 +26,7 @@ const DataTableView = ({ data, columns }: DataTableViewProps) => {
 		rows,
 		prepareRow,
 		setFilter,
-	} = useTable({ columns, data: memoizedData }, useFilters);
+	} = useTable({ columns, data: memoizedData }, useFilters, useSortBy);
 
 	return (
 		<Container>
@@ -55,11 +55,20 @@ const DataTableView = ({ data, columns }: DataTableViewProps) => {
 											// Loop over the headers in each row
 											headerGroup.headers.map((column) => (
 												// Apply the header cell props
-												<th {...column.getHeaderProps()}>
-													{
-														// Render the header
-														column.render("Header")
-													}
+												<th
+													{...column.getHeaderProps(
+														column.getSortByToggleProps()
+													)}
+												>
+													{column.render("Header")}
+													{/* Add a sort direction indicator */}
+													<span>
+														{column.isSorted
+															? column.isSortedDesc
+																? " 🔽"
+																: " 🔼"
+															: ""}
+													</span>
 												</th>
 											))
 										}

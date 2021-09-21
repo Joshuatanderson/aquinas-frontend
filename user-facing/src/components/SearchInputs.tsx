@@ -1,4 +1,4 @@
-import { Button, TextField, Typography } from "@material-ui/core";
+import { Button, Grid, TextField, Typography } from "@material-ui/core";
 import { Autocomplete } from "@material-ui/lab";
 import { makeStyles } from "@material-ui/styles";
 import { useEffect, useState } from "react";
@@ -15,6 +15,10 @@ const useStyles = makeStyles({
 	cont: {
 		marginTop: theme.spacing(3),
 		marginLeft: theme.spacing(3),
+	},
+	btnCont: {
+		display: "flex",
+		alignContent: "center",
 	},
 });
 
@@ -34,19 +38,27 @@ const SearchInputs = ({ setGlobalSearch }: SearchInputsProps) => {
 
 	return (
 		<div className={classes.cont}>
-			<TextField
-				variant="outlined"
-				label="Search By"
-				onChange={(e) => setSearchInput(e.target.value)}
-				value={searchInput}
-			/>
-			<Button
-				variant="contained"
-				color="secondary"
-				onClick={() => handleSearch()}
-			>
-				Go
-			</Button>
+			<Grid container spacing={3}>
+				<Grid item>
+					<TextField
+						variant="outlined"
+						label="Search By"
+						onChange={(e) => setSearchInput(e.target.value)}
+						value={searchInput}
+					/>
+				</Grid>
+
+				<Grid item className={classes.btnCont}>
+					<Button
+						variant="contained"
+						color="secondary"
+						onClick={() => handleSearch()}
+					>
+						Go
+					</Button>
+				</Grid>
+			</Grid>
+
 			{/* <Autocomplete 
 				renderInput={() => <TextField label="search" helperText="input anything you'd like to search"/>}
 				freeSolo={true} 

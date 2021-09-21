@@ -95,10 +95,15 @@ const DataTableModel = ({ globalSearch }: DataTableModelProps) => {
 	return (
 		<Fragment>
 			<div className={classes.cont}>
-				{data?.length && <DataTableView data={data} columns={columns} />}
-				{!data?.length && (
+				{!globalSearch && (
+					<Typography variant="body1">
+						Try searching to load content.
+					</Typography>
+				)}
+				{globalSearch && !data?.length && (
 					<Typography variant="body1">Data loading...</Typography>
 				)}
+				{data?.length && <DataTableView data={data} columns={columns} />}
 			</div>
 		</Fragment>
 	);
