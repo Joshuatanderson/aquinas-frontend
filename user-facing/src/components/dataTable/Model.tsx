@@ -10,7 +10,7 @@ import { ROUTES } from "../../routes";
 
 const useStyles = makeStyles({
 	cont: {
-		marginTop: theme.spacing(9),
+		marginTop: theme.spacing(3),
 		marginLeft: theme.spacing(3),
 	},
 });
