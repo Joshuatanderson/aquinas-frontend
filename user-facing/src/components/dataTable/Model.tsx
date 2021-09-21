@@ -1,5 +1,5 @@
 import { Typography } from "@material-ui/core";
-import React, { useMemo, useEffect, useState, Fragment } from "react";
+import { useMemo, useEffect, useState, Fragment } from "react";
 import { DEV } from "../../config";
 import { makeStyles } from "@material-ui/core/styles";
 import { ApiDataItem } from "../../types/ApiDataItem";
